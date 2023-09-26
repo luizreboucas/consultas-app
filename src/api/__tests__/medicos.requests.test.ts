@@ -16,7 +16,7 @@ describe('Requests from medicos database',() => {
         const medico: MedicoModel = new MedicoModel({
             nome: 'Joaquim das Neves',
             especialidade: 'cardiologia',
-            objectId: undefined
+            objectId: 'I5Mf6sgwD3'
         })
         const newMedico = await MedicosRequest.postMedico(medico)
         expect(newMedico).not.toBeUndefined()
@@ -32,5 +32,15 @@ describe('Requests from medicos database',() => {
         const medicoAtualizado = await MedicosRequest.updateMedico(medico)
 
         expect(medicoAtualizado).not.toBeUndefined()
+    })
+
+    it('should return a deleted medico', async() => {
+        const medicoToBeDeleted = new MedicoModel({
+            especialidade: 'atualizacao',
+            nome: 'medico atualizado',
+            objectId: 'I5Mf6sgwD3'
+        })
+        const medico = await MedicosRequest.deleteMedico(medicoToBeDeleted)
+        expect(medico).not.toBe(undefined)
     })
 })

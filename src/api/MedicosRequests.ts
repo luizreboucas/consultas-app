@@ -64,4 +64,16 @@ export default class MedicosRequest {
         return response
     
     }
+
+    static deleteMedico = async(medico: MedicoModel) => {
+        const deletedMedico = request.delete(`/classes/medicos/${medico.getData().objectId}`)
+        .then((response)=>{
+            return response.data
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+
+        return deletedMedico
+    }
 }
