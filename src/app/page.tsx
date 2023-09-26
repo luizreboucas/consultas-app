@@ -17,8 +17,8 @@ export default function Home() {
       // const medicos = await MedicosRequest.getMedicos()
       const medico = await MedicosRequest.getMedico('bD4keDCDbW')
       const medicoRecebido = new MedicoModel(medico)
-      medicoRecebido.setNome('Alessandro Vilas Boas')
-      medicoRecebido.setEspecialidade('cabelereiro')
+      medicoRecebido.setNome('Alessandro Vilésias')
+      medicoRecebido.setEspecialidade('pediatria')
       const mudanca = await MedicosRequest.updateMedico(medicoRecebido)
       console.log(mudanca)
     } catch (error) {

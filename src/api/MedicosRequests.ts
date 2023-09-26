@@ -1,48 +1,67 @@
 import MedicoModel from "@/models/MedicoModel";
 import request from "./config";
+import { error } from "console";
 
 export default class MedicosRequest {
     
 
-    static getMedicos = async() => {
-        try {
-            const medicos : Promise<MedicoModel[]> = (await request.get('/classes/medicos')).data.results
-            return medicos
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    static getMedico = async(id:string) => {
-        try {
-            const medico = (await request.get(`/classes/medicos/${id}`)).data
-            return medico
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    static postMedico = async(medico: MedicoModel) => {
-        try {
-            const res = await request.post('/classes/medicos', {
-                nome: medico.getData().nome,
-                especialidade: medico.getData().especialidade
+    static getMedicos = () => {
+        let listaMedicos = request.get('/classes/medicos')
+            .then((medicos) => {
+                return medicos.data.results
             })
-            return res
-        } catch (error) {
-            console.error(error)
+            .catch((e)=> {
+                console.log(e)
+            })
+        return listaMedicos
         }
+
+    static getMedico = (id:string) => {
+       
+        const medico =  request.get(`/classes/medicos/${id}`)
+        .then((medicoSelecionado) => {
+            
+            return medicoSelecionado.data
+        })
+        return medico
+    
+    }
+
+    static postMedico = (medico: MedicoModel) => {
+       
+        const res = request.post('/classes/medicos', {
+            nome: medico.getData().nome,
+            especialidade: medico.getData().especialidade
+        })
+        .then((response) => {
+            console.log(response.data)
+            return response.data
+        })
+        .catch((error)=> {
+            console.log(error)
+        })
+        
+        
+        return res
+        
     }
 
     static updateMedico = async(medico: MedicoModel) => {
-        try {
-            const response = await request.put(`/classes/medicos/${medico.getData().objectId}`, {
-                nome: medico.getData().nome,
-                especialidade: medico.getData().especialidade 
-            })
-            return response
-        } catch (error) {
-            console.error(error)
-        }
+        
+        const response = await request.put(`/classes/medicos/${medico.getData().objectId}`, {
+            nome: medico.getData().nome,
+            especialidade: medico.getData().especialidade 
+        })
+        .then((res)=>{
+            console.log(res.data)
+            return res.data
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+           
+        
+        return response
+    
     }
 }
