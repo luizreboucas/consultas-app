@@ -1,7 +1,7 @@
 'use client'
-import request from "@/api/config"
+import request from "../../api/config"
 import { useEffect, useState } from "react"
-import MedicosRequest from "@/api/MedicosRequests"
+import MedicosRequest from "../../api/MedicosRequests"
 import MedicoModel from "@/models/MedicoModel"
 
 export default function Home() {

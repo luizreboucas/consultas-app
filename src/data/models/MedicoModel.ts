@@ -2,20 +2,25 @@
 type TMedicoModel = {
     objectId: string | undefined | null,
     especialidade: string,
-    nome: string
+    nome: string,
+    __type: String ,
+    className: String
 }
 
 export default class MedicoModel{
-    private objectId
-    private especialidade
-    private nome
-   
+    objectId
+    especialidade
+    nome
+    __type
+    className
 
-    constructor({nome,especialidade, objectId} : TMedicoModel){
+    constructor({nome,especialidade, objectId, __type = 'Object', className = 'medicos'} : TMedicoModel){
         
         this.especialidade = especialidade,
         this.nome = nome
         this.objectId = objectId
+        this.__type = __type
+        this. className = className
        
     }
 

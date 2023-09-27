@@ -1,4 +1,4 @@
-import MedicoModel from "@/models/MedicoModel";
+import MedicoModel from "../models/MedicoModel";
 import request from "./config";
 import { error } from "console";
 
