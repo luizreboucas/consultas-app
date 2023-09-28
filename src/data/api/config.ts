@@ -1,17 +1,12 @@
 import axios from "axios";
-import { load } from "ts-dotenv";
 
-const env = load({
-    BASE_URL: String,
-    APPLICATION_ID: String,
-    API_KEY: String
-})
+
 
 const request = axios.create({
-    baseURL: `${env.BASE_URL}`,
+    baseURL: `https://parseapi.back4app.com`,
     headers:{
-        'X-Parse-Application-Id': `${env.APPLICATION_ID}`,
-        'X-Parse-REST-API-Key': `${env.API_KEY}`,
+        'X-Parse-Application-Id': `l9VOvJyeab1mcSqfxMWz4NuHMWDNUQ2Mso1HTwXm`,
+        'X-Parse-REST-API-Key': `Oas3rBzG6bjAzMtqxXSkgUpjXQ2TeOVhpdRFpI5i`,
         'Content-Type': 'application/json'
     },
     transformRequest: [function (data, headers) {

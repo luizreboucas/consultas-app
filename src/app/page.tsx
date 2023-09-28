@@ -1,41 +1,70 @@
 'use client'
-import request from "../../api/config"
+
 import { useEffect, useState } from "react"
-import MedicosRequest from "../../api/MedicosRequests"
-import MedicoModel from "@/models/MedicoModel"
+import NavBar from '../components/NavBar'
+import Column from "@/components/Column"
+import MedicoModel from "@/data/models/MedicoModel"
+import PacienteModel from "@/data/models/PacienteModel"
+import MedicosRequest from "@/data/api/MedicosRequests"
+import PacientesRequest from "@/data/api/PacientesRequests"
+import ConsultasRequests from "@/data/api/consultasRequests"
+import ConsultaModel from "@/data/models/ConsultaModel"
+import ConsultaColumn from "@/components/ConsultaColumn"
 
 export default function Home() {
 
-  const [medicos, setMedicos] = useState<MedicoModel[] | undefined>([])
-  const [medico, setMedico] = useState<MedicoModel | undefined>()
-  
-
-  const getMedicos = async() => {
-    try {
-
-      // const medicoRequest : MedicoModel| undefined = await MedicosRequest.getMedico('pOktPvvBC7')
-      // const medicos = await MedicosRequest.getMedicos()
-      const medico = await MedicosRequest.getMedico('bD4keDCDbW')
-      const medicoRecebido = new MedicoModel(medico)
-      medicoRecebido.setNome('Alessandro Vilésias')
-      medicoRecebido.setEspecialidade('pediatria')
-      const mudanca = await MedicosRequest.updateMedico(medicoRecebido)
-      console.log(mudanca)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-
+  const [openNavBar, setOpenNavBar] = useState<boolean>(true)
+  const [medicos, setMedicos] = useState<MedicoModel[] | undefined>()
+  const [pacientes, setPacientes] = useState<PacienteModel[] | undefined>()
+  const [consultas, setConsultas] = useState<ConsultaModel[] | undefined>()
 
   useEffect(()=>{
-      getMedicos()
-      
+        const getMedicos = () => {
+          MedicosRequest.getMedicos()
+          .then((result) => {
+            setMedicos(result)
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+        }
+
+        const getPacientes = () => {
+          PacientesRequest.getPacientes()
+            .then((results) => {
+              setPacientes(results)
+            })
+            .catch((e) => {
+              console.log(e)
+            })
+        }
+
+        const getConsultas = () => {
+          ConsultasRequests.getConsultas()
+            .then((results) => {
+              setConsultas(results)
+            })
+            .catch((e) => {
+              console.log(e)
+            })
+        }
+
+
+
+        getMedicos()
+        getPacientes()
+        getConsultas()
   },[])
 
   return (
-    <div>
-      <h2 className='text-red-700 font-bold'>{medico?.getData().nome}</h2>
+    <div className="w-full bg-white">
+      <NavBar/>
+      <div className="flex mx-48 mt-3">
+        <ConsultaColumn label="Consultas" data={consultas}/>
+        <Column label="Médicos" data={medicos}/>
+        <Column label="Pacientes" data={pacientes}/>
+        
+      </div>
     </div>
   )
 }
