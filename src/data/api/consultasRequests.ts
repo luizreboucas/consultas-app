@@ -32,10 +32,10 @@ export default class ConsultasRequests{
     static postConsulta = async(consulta: ConsultaModel) => {
         const consultaPostada = request.post('/parse/functions/hello',{
                 
-                medico: consulta.getData().medico.objectId,
+                medico: consulta?.getData().medico?.objectId,
                 
                 
-                paciente: consulta.getData().paciente.objectId,
+                paciente: consulta?.getData().paciente?.objectId,
                 
             }
         )

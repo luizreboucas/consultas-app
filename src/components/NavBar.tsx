@@ -17,8 +17,8 @@ type TNavBarComponent = {
   setConsultasModalOpen: Dispatch<SetStateAction<boolean>>
   paciente?: PacienteModel,
   pacientes?: PacienteModel[],
-  setPaciente: Dispatch<SetStateAction<PacienteModel>>,
-  setPacientes:  Dispatch<SetStateAction<PacienteModel[]>>
+  setPaciente: Dispatch<SetStateAction<PacienteModel | undefined>>,
+  setPacientes:  Dispatch<SetStateAction<PacienteModel[] | undefined>>
 
 }
  
@@ -80,7 +80,7 @@ export function NavbarComponent({consultasModalOpen, setConsultasModalOpen, paci
     </ul>
   );
 
-  const criarNovaConsulta = async(medico: MedicoModel) => {
+  const criarNovaConsulta = async() => {
     setConsultasModalOpen(!consultasModalOpen)
   }
  
@@ -96,7 +96,7 @@ export function NavbarComponent({consultasModalOpen, setConsultasModalOpen, paci
         </Typography>
         <p>Consultas de emergência</p>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block" onClick={(medico: MedicoModel) => criarNovaConsulta(medico)}>
+        <Button variant="gradient" size="sm" className="hidden lg:inline-block" onClick={criarNovaConsulta}>
           <span>Nova Consulta</span>
         </Button>
         <IconButton
