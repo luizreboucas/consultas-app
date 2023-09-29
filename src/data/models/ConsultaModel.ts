@@ -2,12 +2,12 @@ import PacienteModel from "./PacienteModel"
 import MedicoModel from "./MedicoModel"
 
 type TConsultaModel = {
-    objectId: String | undefined | null,
-    updatedAt: Date | undefined,
-    createdAt: Date | undefined,
-    paciente: PacienteModel,
-    datetime: Date,
-    medico: MedicoModel
+    objectId?: String | undefined | null,
+    updatedAt?: Date | undefined,
+    createdAt?: Date | undefined,
+    paciente: PacienteModel | undefined,
+    datetime?: Date,
+    medico: MedicoModel | undefined
 }
 
 export default class ConsultaModel{

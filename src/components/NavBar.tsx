@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import {
   Navbar,
   MobileNav,
@@ -8,8 +8,21 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { UserPlusIcon, AcademicCapIcon } from '@heroicons/react/24/solid'
+import MedicoModel from "@/data/models/MedicoModel";
+import PacienteModel from "@/data/models/PacienteModel";
+import PacientesRequest from "@/data/api/PacientesRequests";
+
+type TNavBarComponent = {
+  consultasModalOpen: boolean,
+  setConsultasModalOpen: Dispatch<SetStateAction<boolean>>
+  paciente?: PacienteModel,
+  pacientes?: PacienteModel[],
+  setPaciente: Dispatch<SetStateAction<PacienteModel>>,
+  setPacientes:  Dispatch<SetStateAction<PacienteModel[]>>
+
+}
  
-export function NavbarComponent() {
+export function NavbarComponent({consultasModalOpen, setConsultasModalOpen, paciente, pacientes, setPaciente, setPacientes}: TNavBarComponent) {
   const [openNav, setOpenNav] = React.useState(false);
  
   React.useEffect(() => {
@@ -18,6 +31,18 @@ export function NavbarComponent() {
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
+
+  const cadastraCliente = () => {
+    const nome = prompt("digite o nome do cliente")
+    const novoPaciente = new PacienteModel({nome: nome})
+    PacientesRequest.postPaciente(novoPaciente)
+      .then(() => {
+        alert('Paciente Cadastrado com sucesso')
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
  
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -40,7 +65,7 @@ export function NavbarComponent() {
         color="blue-gray"
         className="p-1 font-bold text-md"
       >
-        <div className="flex ">
+        <div className="flex " onClick={cadastraCliente}>
             <a href="#" className="flex items-center">
             Novo Cliente
             </a>
@@ -54,6 +79,10 @@ export function NavbarComponent() {
       
     </ul>
   );
+
+  const criarNovaConsulta = async(medico: MedicoModel) => {
+    setConsultasModalOpen(!consultasModalOpen)
+  }
  
   return (
     <Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4">
@@ -63,10 +92,11 @@ export function NavbarComponent() {
           href="#"
           className="mr-4 cursor-pointer py-1.5 text-xl font-bold "
         >
-          Consultas Já
+          Consultas Já - 
         </Typography>
+        <p>Consultas de emergência</p>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block">
+        <Button variant="gradient" size="sm" className="hidden lg:inline-block" onClick={(medico: MedicoModel) => criarNovaConsulta(medico)}>
           <span>Nova Consulta</span>
         </Button>
         <IconButton

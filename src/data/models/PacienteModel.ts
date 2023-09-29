@@ -1,7 +1,7 @@
 
 type TPacienteModel = {
-    objectId: string | null | undefined,
-    nome: string
+    objectId?: string | null | undefined,
+    nome?: string | null
 
 }
 
